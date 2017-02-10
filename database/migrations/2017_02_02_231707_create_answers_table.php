@@ -16,8 +16,11 @@ class CreateAnswersTable extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('text');
-            $table->integer('qId');
             $table->integer('count');
+            $table->enum('right_answer',[0,1]);
+            $table->foreign('question_id')
+								->references('id')->on('questions')
+								->onDelete('cascade');
             $table->timestamps();
         });
     }
