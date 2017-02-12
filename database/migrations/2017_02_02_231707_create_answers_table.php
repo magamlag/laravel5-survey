@@ -18,7 +18,8 @@ class CreateAnswersTable extends Migration
             $table->string('text');
             $table->integer('count');
             $table->enum('right_answer',[0,1]);
-            $table->foreign('question_id')
+						$table->integer('question_id')->unsigned();
+						$table->foreign('question_id')
 								->references('id')->on('questions')
 								->onDelete('cascade');
             $table->timestamps();
