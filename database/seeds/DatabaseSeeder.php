@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Question;
 use App\Answer;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        $this->call(QuestionsSeeder::class);
-        $this->call(AnswersSeeder::class);
+			Model::unguard();
+
+			$this->call(UsersTableSeeder::class);
+      $this->call(QuestionsTableSeeder::class);
+      $this->call(AnswersTableSeeder::class);
+
+      Model::reguard();
     }
 }
 
