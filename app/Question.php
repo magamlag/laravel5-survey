@@ -17,4 +17,13 @@ class Question extends Model
 	public function answers(  ) {
 		return $this->hasMany( Answer::class );
 	}
+
+	/**
+	 * Every 'question' can belongs to one 'user'
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function author(  ) {
+		return $this->belongsTo( User::class );
+	}
 }

@@ -9,11 +9,20 @@ class Answer extends Model {
 	protected $guarded = [];
 
 	/**
-	 * Every answer can have only one question
+	 * Every 'answer' can have only one 'question'
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function question() {
+	public function questions() {
 		return $this->belongsToMany( Question::class );
+	}
+
+	/**
+	 * Every 'answer' can have many 'participants'
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function participants() {
+		return $this->belongsToMany( User::class );
 	}
 }
