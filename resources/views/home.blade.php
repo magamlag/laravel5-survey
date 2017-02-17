@@ -50,7 +50,7 @@
         @if(Auth::user()->status != 0)
             <div class="col-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Результаты опроса</div>
+                        <div class="panel-heading">Result</div>
                         <div class="panel-body">
                             <span>
                                 <div style="background: #F44336; border-radius: 10px; width:20px; height: 20px; display: inline-block"></div>
@@ -71,22 +71,22 @@
         @else
             <div class="col-md-8 col-md-offset-2">
                 {{ Form::open(['route'=>'add', 'method'=>'post']) }}
-                @foreach($questions as $item)
+                @foreach($questions as $key => $item)
                     <oprosnik>
+                        <input type="text" id="question_{{ $item['id'] }}" value="{{ $item['id'] }}" hidden>
                 <div class="panel panel-default">
                         <div class="panel-heading">{{ $item['title'] }}</div>
                         <div class="panel-body">
                             <div class="form-group">
-                                <p><label for="cb{{ $item['a0id'] }}"><input id="cb{{ $item['a0id'] }}" name="cg{{ $item['id'] }}" value="{{ $item['a0id'] }}" type="radio"><span style="margin-left: 15px">{{ $item['a0'] }}</span></label></p>
-                                <p><label for="cb{{ $item['a1id'] }}"><input id="cb{{ $item['a1id'] }}" name="cg{{ $item['id'] }}" value="{{ $item['a1id'] }}" type="radio"><span style="margin-left: 15px">{{ $item['a1'] }}</span></label></p>
-                                <p><label for="cb{{ $item['a2id'] }}"><input id="cb{{ $item['a2id'] }}" name="cg{{ $item['id'] }}" value="{{ $item['a2id'] }}" type="radio"><span style="margin-left: 15px">{{ $item['a2'] }}</span></label></p>
-                                <p><label for="cb{{ $item['a3id'] }}"><input id="cb{{ $item['a3id'] }}" name="cg{{ $item['id'] }}" value="{{ $item['a3id'] }}" type="radio"><span style="margin-left: 15px">{{ $item['a3'] }}</span></label></p>
+                                @foreach($item['answers'] as $key => $value)
+                                    <p><label for="cb{{ $key }}"><input id="cb{{ $key }}" name="{{ $item['id'] }}" value="{{ $key }}" type="radio"><span style="margin-left: 15px">{{ $value }}</span></label></p>
+                                @endforeach
                             </div>
                         </div>
                 </div>
                     </oprosnik>
                 @endforeach
-                {{ Form::submit('Отправить', ['class'=>'btn btn-success btn-block']) }}
+                {{ Form::submit('Send', ['class'=>'btn btn-success btn-block']) }}
                 {{ Form::close() }}
             </div>
         @endif

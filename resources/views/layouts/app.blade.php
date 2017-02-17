@@ -71,15 +71,15 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Вход</a></li>
-                            <li><a href="{{ url('/register') }}">Регистрация</a></li>
+                            <li><a href="{{ url('/login') }}">Log In</a></li>
+                            <li><a href="{{ url('/register') }}">Registration</a></li>
                         @else
 
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Выйти
+                                            Log Out
                                         </a>
 
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
