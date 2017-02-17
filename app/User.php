@@ -42,6 +42,6 @@ class User extends Authenticatable
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
 	public function answers() {
-		return $this->belongsToMany( Question::class );
+		return $this->belongsToMany( Answer::class, 'participant_answer', 'participant_id', 'answer_id' );
 	}
 }

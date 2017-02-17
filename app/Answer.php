@@ -23,6 +23,6 @@ class Answer extends Model {
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
 	public function participants() {
-		return $this->belongsToMany( User::class );
+		return $this->belongsToMany( User::class, 'participant_answer', 'answer_id', 'participant_id' );
 	}
 }
