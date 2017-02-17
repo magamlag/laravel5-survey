@@ -13,10 +13,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Answer::class, function (Faker\Generator $faker) {
-
+	$questions = App\Question::take(40)->pluck('id')->toArray();
 	return [
 			'text' => $faker->name,
-			'question_id' => factory(App\Question::class)->create()->id,
-			'right_answer' => $faker->randomElements( [ 0, 1 ] ),
+			'question_id' => $faker->randomElement($questions),
+			'right_answer' => $faker->randomElement( [ '0', '1' ] ),
+			'count' => 0,
 	];
 });

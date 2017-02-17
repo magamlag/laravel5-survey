@@ -12,9 +12,6 @@ class AnswersTableSeeder extends Seeder
     public function run()
     {
         //
-			factory(App\Answer::class, 50)->create(['question_id'=>App\Question::all()->random(3)->last()->id])
-					->each(function($a) {
-						$a->participants()->save(factory(App\User::class)->make());
-			});
+			factory(App\Answer::class, 50)->create();
 		}
 }
