@@ -8,54 +8,65 @@ use App\Answer;
 use App\User;
 use Auth;
 
-class HomeController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+class HomeController extends Controller {
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		$this->middleware( 'auth' );
+	}
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        if(Auth::user()->status == 0) {
-            $q = Question::with('answers')->has('answers')->take(10)->get();
-            $questions = [];
-            foreach ($q as $item) {
+	/**
+	 * Show the application dashboard.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index() {
+		if ( Auth::user()->status == 0 ) {
+			$data = $this->prepareQuestionsAndAnswersForResult();
 
-                $questions[$item->id]['id'] = $item->id;
-                $questions[$item->id]['title'] = $item->text;
+			return view( 'home', $data );
 
-                foreach ($item->answers as $k => $answer) {
-                    $questions[$item->id]['answers'][$answer['id']] = $answer['text'];
-                }
-            }
-            $data = ['questions' => $questions];
-        } else {
+		} else {
 
-            $data = [
-                'answers' => Answer::all(),
-                'question' => Question::all()->toArray()
-            ];
-        }
-            return view('home', $data);
+			$data = [
+					'answers'  => Answer::all(),
+					'question' => Question::all()->toArray()
+			];
+		}
+		return view( 'home', $data );
 
-    }
+	}
 
-    public function addAnsw(Request $request){
-			$request_array = $request->except('_token');
+	public function addAnsw( Request $request ) {
+		$request_array = $request->except( '_token' );
 
-				Auth::user()->answers()->sync(array_values($request_array));
+		Auth::user()->answers()->sync( array_values( $request_array ) );
 
-				return redirect()->route('home');
-    }
+		return redirect()->route( 'home' );
+	}
+
+	/**
+	 * Get questions and related answers for result page
+	 *
+	 * @return array
+	 */
+	public function prepareQuestionsAndAnswersForResult() {
+		$q         = Question::with( 'answers' )->has( 'answers' )->take( 10 )->get();
+		$questions = [];
+		foreach ( $q as $item ) {
+
+			$questions[$item->id]['id']    = $item->id;
+			$questions[$item->id]['title'] = $item->text;
+
+			foreach ( $item->answers as $k => $answer ) {
+				$questions[$item->id]['answers'][$answer['id']] = $answer['text'];
+			}
+		}
+
+		$data = [ 'questions' => $questions ];
+		return $data;
+	}
 }
