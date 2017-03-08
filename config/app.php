@@ -166,7 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+				ConsoleTVs\Charts\ChartsServiceProvider::class,
         //
         /*
          * Html and Form helpers
