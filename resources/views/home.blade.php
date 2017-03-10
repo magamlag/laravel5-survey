@@ -73,13 +73,13 @@
                 {{ Form::open(['route'=>'add', 'method'=>'post']) }}
                 @foreach($questions as $key => $item)
                     <oprosnik>
-                        <input type="text" id="question_{{ $item['id'] }}" value="{{ $item['id'] }}" hidden>
+                        <input type="text" name="item[{{$key}}][question_id]" value="{{ $item['id'] }}" hidden>
                 <div class="panel panel-default">
                         <div class="panel-heading">{{ $item['title'] }}</div>
                         <div class="panel-body">
                             <div class="form-group">
                                 @foreach($item['answers'] as $key => $value)
-                                    <p><label for="cb{{ $key }}"><input id="cb{{ $key }}" name="{{ $item['id'] }}" value="{{ $key }}" type="radio"><span style="margin-left: 15px">{{ $value }}</span></label></p>
+                                    <p><label for="cb{{ $key }}"><input id="cb{{ $key }}" name="item[{{$item['id']}}][answer_id]" value="{{ $key }}" type="radio"><span style="margin-left: 15px">{{ $value }}</span></label></p>
                                 @endforeach
                             </div>
                         </div>
