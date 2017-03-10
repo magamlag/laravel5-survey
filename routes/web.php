@@ -16,4 +16,5 @@ Route::get('/', ['uses'=>'HomeController@index', 'as'=>'index']);
 Auth::routes();
 
 Route::get('/home', ['uses'=>'HomeController@index', 'as'=>'home']);
+Route::get('/result', ['uses'=>'HomeController@showResult', 'as'=>'result']);
 Route::post('/add', ['uses'=>'HomeController@addAnsw', 'as'=>'add']);
