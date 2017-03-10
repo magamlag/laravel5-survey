@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Participant;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Question;
 use App\Answer;
-use App\User;
 use Auth;
 
 class HomeController extends Controller {
+
 	/**
 	 * Create a new controller instance.
 	 *
@@ -40,12 +42,37 @@ class HomeController extends Controller {
 
 	}
 
+	/**
+	 * Save answers
+	 *
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public function addAnsw( Request $request ) {
 		$request_array = $request->except( '_token' );
+		$user_id       = Auth::user()->id;
+		$created_at    = Carbon::now();
+		foreach ( $request_array['item'] as $key => &$value ) {
+			$value['user_id']    = $user_id;
+			$value['created_at'] = $created_at;
+		}
+		Participant::insert( $request_array['item'] );
+		return redirect()->route( 'result' );
+	}
 
-		Auth::user()->answers()->sync( array_values( $request_array ) );
+	/**
+	 * Show diagram of all answers
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function showResult() {
+		$data = [
+				'answers'  => Answer::all(),
+				'question' => Question::all()->toArray()
+		];
 
-		return redirect()->route( 'home' );
+		return view( 'result', compact( [ $data ] ) );
 	}
 
 	/**
@@ -54,7 +81,7 @@ class HomeController extends Controller {
 	 * @return array
 	 */
 	public function prepareQuestionsAndAnswersForResult() {
-		$q         = Question::with( 'answers' )->has( 'answers' )->take( 10 )->get();
+		$q         = Question::with( 'answers' )->has( 'answers' )->take( 2 )->get();
 		$questions = [];
 		foreach ( $q as $item ) {
 
